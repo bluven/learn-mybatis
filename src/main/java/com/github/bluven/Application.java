@@ -1,5 +1,6 @@
 package com.github.bluven;
 
+import com.github.bluven.mapper.UserMapper;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
@@ -17,10 +18,15 @@ public class Application {
         InputStream inputStream = Resources.getResourceAsStream(resource);
 
         SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
-
+        
         sessionFactory.getConfiguration().getEnvironment().getDataSource().getConnection();
         SqlSession session = sessionFactory.openSession();
-
+        
+        UserMapper userMapper = session.getMapper(UserMapper.class);
+    
+        System.out.println(userMapper.count());
+        System.out.println(userMapper.selectAll());
+        
         session.close();
     }
 }
